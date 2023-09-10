@@ -7,6 +7,6 @@ output "osd_ips" {
 }
 
 output "rgw_ips" {
-  value = hcloud_server.rgw.ipv4_address
+  value = hcloud_server.rgw[*].ipv4_address
 }
 
