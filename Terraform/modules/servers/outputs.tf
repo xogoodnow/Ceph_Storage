@@ -10,3 +10,16 @@ output "rgw_ips" {
   value = hcloud_server.rgw[*].ipv4_address
 }
 
+output "osd_private_ips" {
+  value = hcloud_server.osd[*].network.ip
+}
+
+output "mon_private_ips" {
+  value = hcloud_server.mon[*].network.ip
+}
+
+
+output "rgw_private_ips" {
+  value = hcloud_server.rgw[*].network.ip
+}
+
