@@ -22,7 +22,7 @@ resource "hcloud_server" "osd" {
 
 resource "hcloud_server" "rgw" {
   count = 2
-  name         = "rgw"
+  name         = "rgw-${count.index}"
   image        = var.image_name
   server_type  = "cx21"
   ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
@@ -43,7 +43,7 @@ data "hcloud_ssh_key" "key2"  {
 }
 
 data "hcloud_ssh_key" "key3" {
-  name = "my_ssh_key"
+  name = "ssh_key_bastion"
 
 }
 
