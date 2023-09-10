@@ -1,0 +1,32 @@
+---
+- name: Check for connectivity
+  ping:
+    data: alive
+
+
+- name: Get the private IP address
+  shell: ip --json a s | jq -r '.[] | if .ifname == "ens10" then .addr_info[] | if .family == "inet" then .local else empty end else empty end'
+  register: result
+
+
+- name: Initiaze the ceph cluster on the first mon
+  shell:
+    cmd: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root --skip-mon-network"
+
+
+- name: Get out the initial status of the cluster
+  shell:
+    cmd: "ceph status"
+  register: ceph_status
+
+
+- name: Print out the initial status of the cluster
+  debug:
+    var: ceph_status
+
+
+- name: Fetch the ceph.pub from the remote host
+  fetch:
+    src: /etc/ceph/ceph.pub
+    dest: /root/ceph.pub
+    flat: yes
