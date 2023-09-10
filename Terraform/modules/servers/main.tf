@@ -6,7 +6,7 @@ resource "hcloud_server" "mon" {
   ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
   location = var.location
   network {
-    network_id = ceph-internal
+    network_id = data.hcloud_network.private-network.id
   }
 
 }
@@ -19,7 +19,9 @@ resource "hcloud_server" "osd" {
   server_type  = "cpx31"
   ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
   location = var.location
-
+  network {
+    network_id = data.hcloud_network.private-network.id
+  }
 }
 
 
@@ -30,6 +32,14 @@ resource "hcloud_server" "rgw" {
   server_type  = "cx21"
   ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
   location = var.location
+  network {
+    network_id = data.hcloud_network.private-network.id
+  }
+}
+
+
+data "hcloud_network" "private-network" {
+  name = "ceph-internal"
 
 }
 
