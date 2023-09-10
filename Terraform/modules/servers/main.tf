@@ -5,6 +5,9 @@ resource "hcloud_server" "mon" {
   server_type  = "cpx31"
   ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
   location = var.location
+  network {
+    network_id = ceph-internal
+  }
 
 }
 
