@@ -52,9 +52,9 @@ data "hcloud_ssh_key" "key3" {
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/inventory.tpl",
     {
-      master_ips = hcloud_server.mon.*.ipv4_address
-      worker_ips = hcloud_server.osd.*.ipv4_address
-      haproxy_ip = hcloud_server.rgw.ipv4_address
+      mon_ips = hcloud_server.mon.*.ipv4_address
+      osd_ips = hcloud_server.osd.*.ipv4_address
+      rgw_ips = hcloud_server.rgw.*.ipv4_address
     }
   )
   filename = "${path.module}/../../inventory.yaml"
