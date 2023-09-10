@@ -6,7 +6,7 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "hcloud_ssh_key" "ssh_key" {
-  name       = "my_ssh_key"
+  name       = "ssh_key_bastion"
   public_key = tls_private_key.ssh_key.public_key_openssh
 
 
