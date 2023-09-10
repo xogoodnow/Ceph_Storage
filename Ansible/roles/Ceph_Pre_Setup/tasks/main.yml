@@ -1,0 +1,16 @@
+---
+- name: check connectivity
+  ping:
+    data: alive
+
+
+- name: Install required packages for a ceph node
+  apt:
+    update_cache: yes
+    pkg:
+      - pip
+      - cephadm
+      - ceph-common
+    state: present
+
+
