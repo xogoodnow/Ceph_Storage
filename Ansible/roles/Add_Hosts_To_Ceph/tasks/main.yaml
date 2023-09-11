@@ -10,42 +10,24 @@
     block: "{{ lookup('file', '/root/ceph.pub') }}"
 
 
-- name: Read /etc/hosts file
-  shell: cat /etc/hosts
-  register: hosts_file
+
+- name: Copy the scrip to add hosts to the server
+  copy:
+    src: files/adding_hosts.sh
+    dest: /root/adding_hosts.sh
+    mode: 0700
+    owner: root
+    group: root
 
 
-- name: Iterate over the hosts
-  script:
-    interpreter: /bin/bash
-    content: |
-      while IFS= read -r line; do
-        # Skip commented or empty lines
-        if [[ "$line" =~ ^#.*$ || -z "$line" ]]; then
-          continue
-        fi
-
-        host=$(echo "$line" | awk '{print \$2}')
-        ip=$(echo "$line" | awk '{print \$1}')
-        labels=""
-
-        if [[ "$host" == *"mon"* ]]; then
-          labels="--labels=_admin,mon"
-        elif [[ "$host" == *"osd"* ]]; then
-          labels="--labels=osd"
-        elif [[ "$host" == *"rgw"* ]]; then
-          labels="--labels=rgw"
-        fi
-
-        # Execute the command for each host and IP address with labels
-        command="ceph orch host add $host $ip $labels"
-
-        # Run the command
-        exec $command
-      done <<< "{{ hosts_file.stdout_lines }}"
-      
+- name: Make the script executable
+  shell:
+    cmd: chmod +x /root/adding_hosts.sh
 
 
+- name: Run the script and add the hosts
+  shell:
+    cmd: /bin/bash /root/adding_hosts.sh
 
 
 - name: Get out the initial status of the cluster
@@ -59,14 +41,12 @@
     var: ceph_status
 
 
-
 - name: Add the additional disks to the cluster
   shell:
     cmd: |
       ceph orch daemon add osd osd-1:/dev/sdb
       ceph orch daemon add osd osd-2:/dev/sdb
       ceph orch daemon add osd osd-3:/dev/sdb
-
 
 
 - name: Get out the initial status of the cluster

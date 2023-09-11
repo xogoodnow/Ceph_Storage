@@ -5,8 +5,23 @@
 
 
 - name: Get the private IP address
-  shell: ip --json a s | jq -r '.[] | if .ifname == "ens10" then .addr_info[] | if .family == "inet" then .local else empty end else empty end'
+  shell:
+    cmd: ip --json a s | jq -r '.[] | if .ifname | startswith("en") then .addr_info[] | if .family == "inet" then .local else empty end else empty end' | head -n 1
   register: result
+
+- name: Print out the initial status of the cluster
+  debug:
+    var: result
+
+- name: Print out the initial status of the cluster
+  debug:
+    msg: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root --skip-mon-network"
+
+
+
+- name: Print out the initial status of the cluster
+  pause:
+    seconds: 20
 
 
 - name: Initiaze the ceph cluster on the first mon

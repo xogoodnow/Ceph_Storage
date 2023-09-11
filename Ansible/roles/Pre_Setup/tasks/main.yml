@@ -23,6 +23,7 @@
       - ca-certificates
       - curl
       - python3
+      - jq
       - resolvconf
       - python3-pip
     state: present
