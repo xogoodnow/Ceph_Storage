@@ -11,15 +11,14 @@ output "rgw_ips" {
 }
 
 output "osd_private_ips" {
-  value = hcloud_server.osd[*].network.ip
+  value = hcloud_server.osd[*].network[*].ip
 }
 
 output "mon_private_ips" {
-  value = hcloud_server.mon[*].network.ip
+  value = hcloud_server.mon[*].network[*].ip
 }
 
 
 output "rgw_private_ips" {
-  value = hcloud_server.rgw[*].network.ip
+  value = hcloud_server.rgw[*].network[*].ip
 }
-

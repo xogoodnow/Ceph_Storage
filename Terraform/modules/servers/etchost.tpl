@@ -1,23 +1,10 @@
+mon-0 ${join(" ", mon_0_private_ips)}
+mon-1 ${join(" ", mon_1_private_ips)}
+mon-2 ${join(" ", mon_2_private_ips)}
 
-%{ for index, ip in mon_private_ips }
+osd-0 ${join(" ", osd_0_private_ips)}
+osd-1 ${join(" ", osd_1_private_ips)}
+osd-2 ${join(" ", osd_2_private_ips)}
 
-${ip} mon-${index}
- %{ endfor }
-
-%{ for index, ip in osd_private_ips }
-
-${ip} osd-${index}
- %{ endfor }
-
-%{ for index, ip in rgw_private_ips }
-
-${ip} rgw-${index}
- %{ endfor }
-
-
-
-
-
-
-
-
+rgw-0 ${join(" ", rgw_0_private_ips)}
+rgw-1 ${join(" ", rgw_1_private_ips)}

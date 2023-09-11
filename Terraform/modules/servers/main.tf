@@ -62,6 +62,7 @@ data "hcloud_ssh_key" "key3" {
 
 
 
+
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/inventory.tpl",
     {
@@ -72,3 +73,24 @@ resource "local_file" "inventory" {
   )
   filename = "${path.module}/../../inventory.yaml"
 }
+
+
+
+resource "local_file" "etcd-hosts" {
+  content  = templatefile("${path.module}/etchost.tpl",
+    {
+      mon_0_private_ips = hcloud_server.mon.0.network[*].ip
+      mon_1_private_ips = hcloud_server.mon.1.network[*].ip
+      mon_2_private_ips = hcloud_server.mon.2.network[*].ip
+      osd_0_private_ips = hcloud_server.osd.0.network[*].ip
+      osd_1_private_ips = hcloud_server.osd.1.network[*].ip
+      osd_2_private_ips = hcloud_server.osd.2.network[*].ip
+      rgw_0_private_ips = hcloud_server.rgw.0.network[*].ip
+      rgw_1_private_ips = hcloud_server.rgw.1.network[*].ip
+
+    }
+  )
+  filename = "${path.module}/../../etchost.yaml"
+}
+
+
