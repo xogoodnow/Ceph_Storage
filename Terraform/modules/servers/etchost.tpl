@@ -8,3 +8,5 @@ osd-2 ${join(" ", osd_2_private_ips)}
 
 rgw-0 ${join(" ", rgw_0_private_ips)}
 rgw-1 ${join(" ", rgw_1_private_ips)}
+
+
