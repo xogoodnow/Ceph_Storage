@@ -32,3 +32,9 @@ module "volume" {
 }
 
 
+module "Ceph" {
+
+  source = "./modules/Ceph"
+  hcloud_token = var.hcloud_token
+
+}
