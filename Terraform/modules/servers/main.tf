@@ -44,7 +44,6 @@ data "hcloud_network" "private-network" {
 }
 
 
-
 data "hcloud_ssh_key" "key1"  {
   name = "kang"
 
@@ -59,8 +58,6 @@ data "hcloud_ssh_key" "key3" {
   name = "ssh_key_bastion"
 
 }
-
-
 
 
 resource "local_file" "inventory" {
@@ -90,7 +87,7 @@ resource "local_file" "etcd-hosts" {
 
     }
   )
-  filename = "${path.module}/../../etchost.yaml"
+  filename = "${path.module}/../../../Ansible/roles/Ceph_Pre_Setup/files/etchost.yaml"
 }
 
 
