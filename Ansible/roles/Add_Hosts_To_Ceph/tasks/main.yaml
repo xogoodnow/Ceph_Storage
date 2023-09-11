@@ -67,3 +67,33 @@
       ceph orch daemon add osd osd-2:/dev/sdb
       ceph orch daemon add osd osd-3:/dev/sdb
 
+
+
+- name: Get out the initial status of the cluster
+  shell:
+    cmd: "ceph status"
+  register: ceph_status
+
+
+- name: Print out the initial status of the cluster
+  debug:
+    var: ceph_status
+
+
+
+
+- name: Enable functionality of RGWs on the cluster
+  shell:
+    cmd: ceph orch apply rgw kangrgw --placement="2 label:rgw" --port=8000
+
+
+
+- name: Get out the initial status of the cluster
+  shell:
+    cmd: "ceph status"
+  register: ceph_status
+
+
+- name: Print out the initial status of the cluster
+  debug:
+    var: ceph_status
