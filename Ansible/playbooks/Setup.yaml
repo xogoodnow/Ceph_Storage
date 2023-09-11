@@ -32,6 +32,7 @@
         name: "{{ item }}"
       with_items:
         - $PWD/roles/Add_Hosts_To_Ceph
+      when: mode == 'mon' and init_cluster == 'true'
 
 
 
