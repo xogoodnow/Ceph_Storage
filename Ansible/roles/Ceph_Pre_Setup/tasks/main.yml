@@ -14,3 +14,10 @@
     state: present
 
 
+- name: Copy /etc/hosts file
+  template:
+    src: ../../../etchost.yaml
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: '0644'
