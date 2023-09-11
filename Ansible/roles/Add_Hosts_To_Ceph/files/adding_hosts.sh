@@ -26,7 +26,7 @@ while IFS= read -r line; do
             fi
 
             # Echo the command without executing it
-            ceph orch host add "kang-${hostname}" "$ip" "$labels"
+            ceph orch host add "${hostname}" "$ip" "$labels"
         fi
     fi
 done < /etc/hosts
