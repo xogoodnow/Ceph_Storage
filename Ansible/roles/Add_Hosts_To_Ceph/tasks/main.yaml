@@ -84,7 +84,7 @@
 
 - name: Enable functionality of RGWs on the cluster
   shell:
-    cmd: ceph orch apply rgw kangrgw --placement="2 label:rgw" --port=8000
+    cmd: ceph orch apply rgw kangrgw --placement="2 label:rgw" --port=8585
 
 
 
@@ -97,3 +97,5 @@
 - name: Print out the initial status of the cluster
   debug:
     var: ceph_status
+
+
