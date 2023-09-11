@@ -1,0 +1,28 @@
+---
+- name: setting up k8s cluster
+  hosts: all
+  become: true
+  tasks:
+    - name: Setting the basis on all nodes
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - $PWD/roles/Pre_Setup
+        - $PWD/roles/OS_Tuning
+        - $PWD/roles/Instaling_Docker
+        - $PWD/roles/Ceph_Pre_Setup
+
+
+    - name: Setting the basis on all nodes
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - $PWD/roles/Initialize_cluster
+        - $PWD/roles/Add_Hosts_To_Ceph
+      when: mode == 'mon' and init_cluster == 'true'
+
+
+
+
+
+
