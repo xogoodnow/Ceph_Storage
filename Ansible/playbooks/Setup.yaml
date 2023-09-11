@@ -13,13 +13,26 @@
         - $PWD/roles/Ceph_Pre_Setup
 
 
-    - name: Setting the basis on all nodes
+    - name: Init the cluster
       include_role:
         name: "{{ item }}"
       with_items:
         - $PWD/roles/Initialize_cluster
-        - $PWD/roles/Add_Hosts_To_Ceph
       when: mode == 'mon' and init_cluster == 'true'
+
+
+    - name: Copy the pub key to every node
+      blockinfile:
+        path: /root/.ssh/authorized_keys
+        block: "{{ lookup('file', '/root/ceph.pub') }}"
+
+
+    - name: Add hosts to the ceph cluster
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - $PWD/roles/Add_Hosts_To_Ceph
+
 
 
 
