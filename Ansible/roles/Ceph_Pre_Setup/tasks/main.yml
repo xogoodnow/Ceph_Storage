@@ -16,7 +16,7 @@
 
 - name: Copy /etc/hosts file
   template:
-    src: ../../../etchost.yaml
+    src: files/etchost.yaml
     dest: /etc/hosts
     owner: root
     group: root
