@@ -1,0 +1,69 @@
+---
+- name: Check for connectivity
+  ping:
+    data: alive
+
+
+- name: Copy the pub key to every node
+  blockinfile:
+    path: /root/.ssh/authorized_keys
+    block: "{{ lookup('file', '/root/ceph.pub') }}"
+
+
+- name: Read /etc/hosts file
+  shell: cat /etc/hosts
+  register: hosts_file
+
+
+- name: Iterate over the hosts
+  script:
+    interpreter: /bin/bash
+    content: |
+      while IFS= read -r line; do
+        # Skip commented or empty lines
+        if [[ "$line" =~ ^#.*$ || -z "$line" ]]; then
+          continue
+        fi
+
+        host=$(echo "$line" | awk '{print \$2}')
+        ip=$(echo "$line" | awk '{print \$1}')
+        labels=""
+
+        if [[ "$host" == *"mon"* ]]; then
+          labels="--labels=_admin,mon"
+        elif [[ "$host" == *"osd"* ]]; then
+          labels="--labels=osd"
+        elif [[ "$host" == *"rgw"* ]]; then
+          labels="--labels=rgw"
+        fi
+
+        # Execute the command for each host and IP address with labels
+        command="ceph orch host add $host $ip $labels"
+
+        # Run the command
+        exec $command
+      done <<< "{{ hosts_file.stdout_lines }}"
+      
+
+
+
+
+- name: Get out the initial status of the cluster
+  shell:
+    cmd: "ceph status"
+  register: ceph_status
+
+
+- name: Print out the initial status of the cluster
+  debug:
+    var: ceph_status
+
+
+
+- name: Add the additional disks to the cluster
+  shell:
+    cmd: |
+      ceph orch daemon add osd osd-1:/dev/sdb
+      ceph orch daemon add osd osd-2:/dev/sdb
+      ceph orch daemon add osd osd-3:/dev/sdb
+
