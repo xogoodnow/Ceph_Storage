@@ -28,7 +28,6 @@
     - { name: "net.core.netdev_max_backlog", value: '5000' }
     - { name: "net.ipv4.tcp_max_tw_buckets", value: '300000' }
     - { name: "net.ipv4.tcp_slow_start_after_idle", value: '0' }
-    - { name: "net.ipv4.tcp_tw_recycle", value: '1' }
     - { name: "net.ipv4.tcp_timestamps", value: '0' }
     - { name: "net.ipv4.tcp_window_scaling", value: '0' }
     - { name: "net.ipv4.tcp_syncookies", value: '1' }
