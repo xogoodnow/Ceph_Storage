@@ -1,0 +1,33 @@
+---
+- name: check connectivity
+  ping:
+    data: alive
+
+
+
+- name: Create the user and paste the output to a file
+  shell:
+    cmd: radosgw-admin user create --uid="kang" --display-name="kang" > /root/clients/kang.json
+
+
+
+- name: Extract the access key
+  shell:
+    cmd: cat /root/clients/kang.json | jq -r '.keys[0] | .access_key
+  register: access_key
+
+
+- name: Extract the access key
+  shell:
+    cmd: cat /root/clients/kang.json | jq -r '.keys[0] | .secret_key
+  register: secret_key
+
+
+
+- name: Print out the access key
+  debug:
+    var: access_key
+
+- name: Print out the secret key
+  debug:
+    var: secret_key
