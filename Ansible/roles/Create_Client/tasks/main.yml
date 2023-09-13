@@ -3,24 +3,25 @@
   ping:
     data: alive
 
-
+- name: Create a folder for the user
+  file:
+    mode: 0744
+    owner: root
+    state: directory
+    src: /root/clients/kang
 
 - name: Create the user and paste the output to a file
   shell:
-    cmd: radosgw-admin user create --uid="kang" --display-name="kang" > /root/clients/kang.json
+    cmd: radosgw-admin user create --uid="kang" --display-name="kang" > /root/clients/kang/kang.json
 
 
 
-- name: Extract the access key
-  shell:
-    cmd: cat /root/clients/kang.json | jq -r '.keys[0] | .access_key
-  register: access_key
-
-
-- name: Extract the access key
-  shell:
-    cmd: cat /root/clients/kang.json | jq -r '.keys[0] | .secret_key
-  register: secret_key
+- name: Extract the access key and secret key from the JSON file
+  set_fact:
+    access_key: "{{ (output_json.stdout | from_json).keys[0].access_key }}"
+    secret_key: "{{ (output_json.stdout | from_json).keys[0].secret_key }}"
+  vars:
+    output_json: "{{ lookup('file', '/root/clients/kang/kang.json') }}"
 
 
 
@@ -31,3 +32,12 @@
 - name: Print out the secret key
   debug:
     var: secret_key
+
+
+- name: Create a config file for s3cmd
+  template:
+    src: templates/s3cfg.j2
+    dest: /root/clients/kang/s3cfg
+  vars:
+    secret_key: "{{ secret_key.stdout }}"
+    access_key: "{{ access_key.stdout }}"
