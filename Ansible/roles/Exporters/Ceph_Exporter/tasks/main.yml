@@ -23,3 +23,5 @@
     volumes:
       - /etc/ceph:/etc/ceph
 
+
+

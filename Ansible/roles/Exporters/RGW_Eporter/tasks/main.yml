@@ -1,0 +1,41 @@
+---
+- name: check connectivity
+  ping:
+    data: alive
+
+
+
+- name: Create the user and paste the output to a file
+  shell:
+    cmd: radosgw-admin user create --uid="radosmonexporter" --display-name="radosmonexporter" > /root/clients/radosmonexporter.json
+
+
+
+- name: Give the necessary capabilities to radosmonexporter user
+  shell:
+    cmd: radosgw-admin caps add --uid=ashghaall --caps= "{{ item }} "
+  with_items:
+    - users=read
+    - buckets=read
+    - metadata=read
+    - usage=read
+    - zone=read
+
+
+- name: Extract the access key
+  shell:
+    cmd: cat /root/clients/radosmonexporter.json | jq -r '.keys[0] | .access_key
+  register: access_key
+
+
+- name: Extract the access key
+  shell:
+    cmd: cat /root/clients/radosmonexporter.json | jq -r '.keys[0] | .secret_key
+  register: secret_key
+
+
+
+
+
+
+
