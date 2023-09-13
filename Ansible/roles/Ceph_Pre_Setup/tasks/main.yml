@@ -21,3 +21,11 @@
     owner: root
     group: root
     mode: '0644'
+
+
+- name: Create a directory for client configs
+  file:
+    state: directory
+    mode: 0700
+    owner: root
+    src: /root/clients
