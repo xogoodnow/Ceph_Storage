@@ -13,7 +13,7 @@
 
 - name: Give the necessary capabilities to radosmonexporter user
   shell:
-    cmd: radosgw-admin caps add --uid=ashghaall --caps= "{{ item }} "
+    cmd: radosgw-admin caps add --uid=kang --caps= "{{ item }} "
   with_items:
     - users=read
     - buckets=read
