@@ -5,10 +5,12 @@
 
 - name: Create a folder for the user
   file:
+    path: /root/clients/kang
     mode: 0744
     owner: root
     state: directory
-    src: /root/clients/kang
+    group: root
+
 
 - name: Create the user and paste the output to a file
   shell:

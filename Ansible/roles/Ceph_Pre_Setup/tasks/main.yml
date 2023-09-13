@@ -28,4 +28,5 @@
     state: directory
     mode: 0700
     owner: root
-    src: /root/clients
+    group: root
+    path: /root/clients
