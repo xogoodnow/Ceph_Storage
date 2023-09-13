@@ -38,7 +38,7 @@
     - name: Add exporters
       include_role:
         name: "{{ item }}"
-      with_item:
+      with_items:
         - $PWD/roles/Ceph_Exporter
         - $PWD/roles/Node_Exporter
         #- $PWD/roles/RGW_Exporter
