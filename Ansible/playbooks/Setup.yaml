@@ -35,8 +35,21 @@
       when: mode == 'mon' and init_cluster == 'true'
 
 
+    - name: Add exporters
+      include_role:
+        name: "{{ item }}"
+      with_item:
+        - $PWD/roles/Ceph_Exporter
+        - $PWD/roles/Node_Exporter
+        #- $PWD/roles/RGW_Exporter
 
 
+    - name: Create a client
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - $PWD/roles/Create_Client
+      when: mode == 'mon' and init_cluster == 'true'
 
 
 
