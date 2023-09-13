@@ -17,13 +17,18 @@
     cmd: radosgw-admin user create --uid="kang" --display-name="kang" > /root/clients/kang/kang.json
 
 
+- name: Fetch the credentials of kang user in json
+  fetch:
+    src: /root/clients/kang/kang.json
+    dest: /root/kang.json
+    flat: yes
 
 - name: Extract the access key and secret key from the JSON file
   set_fact:
-    access_key: "{{ (output_json.stdout | from_json).keys[0].access_key }}"
-    secret_key: "{{ (output_json.stdout | from_json).keys[0].secret_key }}"
+    access_key: "{{ output_json['keys'][0].access_key }}"
+    secret_key: "{{ output_json['keys'][0].secret_key }}"
   vars:
-    output_json: "{{ lookup('file', '/root/clients/kang/kang.json') }}"
+    output_json: "{{ lookup('file', '/root/kang.json') }}"
 
 
 
@@ -41,5 +46,8 @@
     src: templates/s3cfg.j2
     dest: /root/clients/kang/s3cfg
   vars:
-    secret_key: "{{ secret_key.stdout }}"
-    access_key: "{{ access_key.stdout }}"
+    secret_key: "{{ secret_key }}"
+    access_key: "{{ access_key }}"
+
+
+
