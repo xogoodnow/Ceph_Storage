@@ -1,0 +1,25 @@
+- name: check connectivity
+  ping:
+    data: alive
+
+- name: update and upgrade system
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Pull ceph exporter image
+  docker_image:
+    name: digitalocean/ceph_exporter
+    tag: latest
+    source: pull
+
+- name: Run ceph exporter
+  docker_container:
+    name: ceph-exporter
+    image: digitalocean/ceph_exporter
+    restart_policy: unless-stopped
+    state: started
+    network_mode: host
+    volumes:
+      - /etc/ceph:/etc/ceph
+
