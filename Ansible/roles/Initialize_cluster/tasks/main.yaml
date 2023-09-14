@@ -17,7 +17,7 @@
 
 - name: Initiaze the ceph cluster on the first mon
   shell:
-    cmd: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root "
+    cmd: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root --skip-mon-network "
 
 
 - name: Get out the initial status of the cluster
