@@ -13,20 +13,11 @@
   debug:
     var: result
 
-- name: Print out the initial status of the cluster
-  debug:
-    msg: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root --skip-mon-network"
-
-
-
-- name: Print out the initial status of the cluster
-  pause:
-    seconds: 20
 
 
 - name: Initiaze the ceph cluster on the first mon
   shell:
-    cmd: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --ssh-user root --skip-mon-network"
+    cmd: "cephadm bootstrap --mon-ip {{ result.stdout }} --cluster-network 10.0.0.0/8 --public-network 0.0.0.0/0 --ssh-user root  --dashboard-username kang --dashboard-password kang "
 
 
 - name: Get out the initial status of the cluster
