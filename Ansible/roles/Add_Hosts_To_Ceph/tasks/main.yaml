@@ -50,7 +50,9 @@
   pause:
     seconds: 30
 
-
+- name: Introduce other mons to the cluster for higher redundancy
+  shell:
+    cmd: ceph orch apply mon --placement="mon-0,mon-1,mon-2"
 
 - name: Check if all hosts has been added successfully
   shell:
@@ -115,5 +117,14 @@
   debug:
     var: ceph_df
 
+- name: Get the status of mons and their quorum
+  shell:
+    cmd: ceph mon stat
+  register: mon_stat
+
+
+- name: Show the status of mons and their quorum
+  debug:
+    var: mon_stat
 
 
