@@ -43,17 +43,17 @@
 
     - name: Ceph monitoring though mons
       include_role:
-        name: " {{ item }}"
+        name: "{{ item }}"
       with_items:
         - $PWD/roles/Exporters/Ceph_Exporter
-      when: mode == 'mon'
+      when: mode != 'monitoring'
 
-    - name: Monitoring User bucket on RGW
-      include_role:
-        name: " {{ item }}"
-      with_items:
-        - $PWD/roles/RGW_Exporter
-      when: mode == 'rgw'
+#    - name: Monitoring User bucket on RGW
+#      include_role:
+#        name: " {{ item }}"
+#      with_items:
+#        - $PWD/roles/RGW_Exporter
+#      when: mode == 'rgw'
 
     - name: Create a client
       include_role:
@@ -61,6 +61,13 @@
       with_items:
         - $PWD/roles/Create_Client
       when: mode == 'mon' and init_cluster == 'true'
+
+    - name: Set up the monitoring stack
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - $PWD/roles/Victoria_Metrics
+      when: mode == 'monitoring'
 
 
 
