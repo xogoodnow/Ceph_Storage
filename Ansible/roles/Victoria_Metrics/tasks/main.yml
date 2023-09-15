@@ -12,7 +12,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0744
+    recurse: true
+    mode: 0777
     owner: root
     group: root
   with_items:
@@ -28,24 +29,32 @@
   copy:
     src: files/Alertmanager/alertmanager.yaml
     dest: /root/monitoring/Alertmanager/
+    force: true
+    mode: 0777
 
 
 - name: Copy Dashboard files
   copy:
     src: files/Dashboards/overview.json
     dest: /root/monitoring/Dashboards/
+    force: true
+    mode: 0777
 
 
 - name: Copy Grafana files
   copy:
-    src: files/grafana.ini
+    src: files/Grafana/grafana.ini
     dest: /root/monitoring/Grafana
+    force: true
+    mode: 0777
 
 
 - name: Copy Prometheus files
   copy:
-    src: files/Prometheus/"{{ item }}"
+    src: files/Prometheus/{{ item }}
     dest: /root/monitoring/Prometheus/
+    force: true
+    mode: 0777
   with_items:
     - alert_rules.yaml
     - prometheus.yaml
@@ -101,6 +110,7 @@
 - name: Run the container for Vmagent
   docker_container:
     name: vmagent
+    state: started
     image: victoriametrics/vmagent:latest
     restart_policy: unless-stopped
     published_ports:
@@ -110,14 +120,16 @@
       - /root/monitoring/Prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
     command:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
-      - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
+      - "--remoteWrite.url=http://localhost:8428/api/v1/write"
       - "-promscrape.config.strictParse=false"
+    network_mode: host
 
 
 
 - name: Run the container for Victoria metrics
   docker_container:
     name: victoriametrics
+    state: started
     image: victoriametrics/victoria-metrics:latest
     restart_policy: unless-stopped
     published_ports:
@@ -136,6 +148,7 @@
       - "--httpListenAddr=:8428"
       - "--influxListenAddr=:8089"
       - "--vmalert.proxyURL=http://vmalert:8880"
+    network_mode: host
 
 
 
@@ -143,6 +156,7 @@
 - name: Run the container for Grafana
   docker_container:
     name: grafana
+    state: started
     image: grafana/grafana:latest
     restart_policy: unless-stopped
     published_ports:
@@ -156,11 +170,11 @@
 
 
 
-
 - name: Run the container for Vmalert
   docker_container:
     name: vmalert
     image: victoriametrics/vmalert:latest
+    state: started
     restart_policy: unless-stopped
     published_ports:
       - 8880:8880
@@ -187,6 +201,7 @@
 - name: Run the container for Alertmanager
   docker_container:
     name: alertmanager
+    state: started
     image: prom/alertmanager:latest
     restart_policy: unless-stopped
     published_ports:
