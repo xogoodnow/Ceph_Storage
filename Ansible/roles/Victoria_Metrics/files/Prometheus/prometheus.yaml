@@ -18,9 +18,36 @@ scrape_configs:
 #    static_configs:
 #      - targets: ['prometheus:9090']
 
-  - job_name: 'node_exporter_local'
+  - job_name: 'node_exporter'
     scrape_interval: 5s
     static_configs:
       - targets:
           - localhost:9100
+          - mon-0:9100
+          - mon-1:9100
+          - mon-2:9100
+          - osd-0:9100
+          - osd-1:9100
+          - osd-2:9100
+          - rgw-0:9100
+          - rgw-1:9100
+
+
+  - job_name: 'ceph_exporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - mon-0:9100
+          - mon-1:9100
+          - mon-2:9100
+          - osd-0:9100
+          - osd-1:9100
+          - osd-2:9100
+          - rgw-0:9100
+          - rgw-1:9100
+
+
+
+
+
 
