@@ -41,6 +41,15 @@
 
 
 
+#- name: Run RGW exporter
+#  docker_container:
+#    name: rgw-exporter
+#    image:
+#    restart_policy: unless-stopped
+#    state: started
+#    network_mode: host
+#    volumes:
+
 
 
 
