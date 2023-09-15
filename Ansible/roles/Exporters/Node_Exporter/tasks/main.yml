@@ -8,16 +8,12 @@
     update_cache: yes
     upgrade: dist
 
-- name: First disable the default node exporter of ceph
-  shell:
-    cmd: ceph orch stop node-exporter
 
 
 - name: pull the required image for Node Exporter
   docker_image:
     name: prom/node-exporter:latest
     source: pull
-
 - name: Run the container for Node Exporter
   docker_container:
     name: node-exporter

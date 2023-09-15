@@ -41,7 +41,14 @@
       with_items:
         - $PWD/roles/Exporters/Node_Exporter
 
-    - name: Ceph monitoring though mons
+
+    - name: First disable the default node exporter of ceph
+      shell:
+        cmd: ceph orch stop node-exporter
+      when: mode == 'mon'
+
+
+    - name: Ceph monitoring
       include_role:
         name: "{{ item }}"
       with_items:
