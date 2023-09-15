@@ -37,6 +37,18 @@ resource "hcloud_server" "rgw" {
   }
 }
 
+resource "hcloud_server" "monitoring" {
+  count = 2
+  name         = "monitoring-${count.index}"
+  image        = var.image_name
+  server_type  = "cx21"
+  ssh_keys = [data.hcloud_ssh_key.key1.id,data.hcloud_ssh_key.key2.id,data.hcloud_ssh_key.key3.id]
+  location = var.location
+  network {
+    network_id = data.hcloud_network.private-network.id
+  }
+}
+
 
 data "hcloud_network" "private-network" {
   name = "ceph-internal"
@@ -66,6 +78,7 @@ resource "local_file" "inventory" {
       mon_ips = hcloud_server.mon.*.ipv4_address
       osd_ips = hcloud_server.osd.*.ipv4_address
       rgw_ips = hcloud_server.rgw.*.ipv4_address
+      monitoring_ips = hcloud_server.monitoring.*.ipv4_address
     }
   )
   filename = "${path.module}/../../inventory.yaml"

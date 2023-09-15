@@ -23,3 +23,10 @@ all:
                     mode: 'rgw'
                     init_cluster: 'false'
             %{ endfor }
+            %{ for index, ip in monitoring_ips }
+                monitoring-hel-${index}:
+                    ansible_host: ${ip}
+                    ansible_user: root
+                    mode: 'monitoring'
+                    init_cluster: 'false'
+            %{ endfor }
