@@ -35,14 +35,25 @@
       when: mode == 'mon' and init_cluster == 'true'
 
 
-    - name: Add exporters
+    - name: Deploy Node exporter on all nodes
       include_role:
         name: "{{ item }}"
       with_items:
-        - $PWD/roles/Exporters/Ceph_Exporter
         - $PWD/roles/Exporters/Node_Exporter
-        #- $PWD/roles/RGW_Exporter
 
+    - name: Ceph monitoring though mons
+      include_role:
+        name: " {{ item }}"
+      with_items:
+        - $PWD/roles/Exporters/Ceph_Exporter
+      when: mode == 'mon'
+
+    - name: Monitoring User bucket on RGW
+      include_role:
+        name: " {{ item }}"
+      with_items:
+        - $PWD/roles/RGW_Exporter
+      when: mode == 'rgw'
 
     - name: Create a client
       include_role:
