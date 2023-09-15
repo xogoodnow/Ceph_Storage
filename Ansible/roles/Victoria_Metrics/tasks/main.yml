@@ -21,6 +21,7 @@
     - /root/monitoring/Prometheus
     - /root/monitoring/Alertmanager
     - /root/monitoring/Dashboards
+    - /root/monitoring/Grafana/provisioning
 
 
 - name: Copy alertmanager files
@@ -97,7 +98,7 @@
 
 
 
-- name: Run the container for vmagent
+- name: Run the container for Vmagent
   docker_container:
     name: vmagent
     image: victoriametrics/vmagent:latest
@@ -114,7 +115,7 @@
 
 
 
-- name: Run the container for victoriametrics
+- name: Run the container for Victoria metrics
   docker_container:
     name: victoriametrics
     image: victoriametrics/victoria-metrics:latest
@@ -136,6 +137,65 @@
       - "--influxListenAddr=:8089"
       - "--vmalert.proxyURL=http://vmalert:8880"
 
+
+
+
+- name: Run the container for Grafana
+  docker_container:
+    name: grafana
+    image: grafana/grafana:latest
+    restart_policy: always
+    published_ports:
+      - 3000:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - /root/monitoring/Grafana/:/etc/grafana/
+      - /root/monitoring/Grafana/provisioning:/etc/grafana/provisioning
+      - /root/monitoring/Dashboards/:/var/lib/grafana/dashboards/
+
+
+
+
+
+- name: Run the container for Vmalert
+  docker_container:
+    name: vmalert
+    image: victoriametrics/vmalert:latest
+    restart_policy: always
+    published_ports:
+      - 8880:8880
+    volumes:
+      - vmagentdata:/vmagentdata
+      - /root/monitoring/Prometheus/alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+      - /root/monitoring/Prometheus/:/etc/prometheus/
+
+    command:
+      - "--datasource.url=http://victoriametrics:8428/"
+      - "--remoteRead.url=http://victoriametrics:8428/"
+      - "--remoteWrite.url=http://victoriametrics:8428/"
+      - "--notifier.url=http://alertmanager:9093/"
+      - "--rule=/etc/alerts/*.yml"
+
+#      # display source of alerts in grafana
+#      - "--external.url=http://127.0.0.1:3000" #grafana outside container
+#      # when copypaste the line be aware of '$$' for escaping in '$expr'
+#      - '--external.alert.source=explore?orgId=1&left={"datasource":"VictoriaMetrics","queries":[{"expr":{{$$expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"now-1h","to":"now"}}'
+
+
+
+
+- name: Run the container for Alertmanager
+  docker_container:
+    name: alertmanager
+    image: prom/alertmanager:latest
+    restart_policy: always
+    published_ports:
+      - 9093:9093
+    volumes:
+      - vmagentdata:/vmagentdata
+      - /root/monitoring/Alertmanager/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yaml'
 
 
 
