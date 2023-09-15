@@ -3,30 +3,143 @@
   ping:
     data: alive
 
-
 - name: update and upgrade system
   apt:
     update_cache: yes
     upgrade: dist
 
+- name: Create the required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0744
+    owner: root
+    group: root
+  with_items:
+    - /root/monitoring
+    - /root/monitoring/Grafana
+    - /root/monitoring/Prometheus
+    - /root/monitoring/Alertmanager
+    - /root/monitoring/Dashboards
 
-- name: install some base packages
-  apt:
-    pkg:
-      - net-tools
-      - xz-utils
-      - bmon
-      - curl
-      - tcpdump
-      - vim
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - python3
-      - jq
-      - resolvconf
-      - python3-pip
+
+- name: Copy alertmanager files
+  copy:
+    src: files/Alertmanager/alertmanager.yaml
+    dest: /root/monitoring/Alertmanager/
+
+
+- name: Copy Dashboard files
+  copy:
+    src: files/Dashboards/overview.json
+    dest: /root/monitoring/Dashboards/
+
+
+- name: Copy Grafana files
+  copy:
+    src: files/grafana.ini
+    dest: /root/monitoring/Grafana
+
+
+- name: Copy Prometheus files
+  copy:
+    src: files/Prometheus/"{{ item }}"
+    dest: /root/monitoring/Prometheus/
+  with_items:
+    - alert_rules.yaml
+    - prometheus.yaml
+
+
+
+
+- name: pull the required images
+  docker_image:
+    name: "{{ item}}"
+    source: pull
+  with_items:
+    - prom/node-exporter:latest
+    - victoriametrics/vmagent:latest
+    - victoriametrics/victoria-metrics:latest
+    - grafana/grafana:latest
+    - victoriametrics/vmalert:latest
+    - prom/alertmanager:latest
+
+
+- name: Create the required volumes
+  docker_volume:
+    volume_name: "{{ item }}"
     state: present
+  with_items:
+    - vmagentdata
+    - vmdata
+    - grafana_data
+
+
+- name: Run the container for Node Exporter
+  docker_container:
+    name: node-exporter
+    image: prom/node-exporter:latest
+    restart_policy: unless-stopped
+    state: started
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    published_ports:
+      - 9100:9100
+    network_mode: host
+
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+
+
+
+- name: Run the container for vmagent
+  docker_container:
+    name: vmagent
+    image: victoriametrics/vmagent:latest
+    restart_policy: always
+    published_ports:
+      - 8429:8429
+    volumes:
+      - vmagentdata:/vmagentdata
+      - /root/monitoring/Prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
+      - "-promscrape.config.strictParse=false"
+
+
+
+- name: Run the container for victoriametrics
+  docker_container:
+    name: victoriametrics
+    image: victoriametrics/victoria-metrics:latest
+    restart_policy: always
+    published_ports:
+      - 8428:8428
+      - 8089:8089
+      - 8089:8089/udp
+      - 2003:2003
+      - 2003:2003/udp
+      - 4242:4242
+    volumes:
+      - vmdata:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--graphiteListenAddr=:2003"
+      - "--opentsdbListenAddr=:4242"
+      - "--httpListenAddr=:8428"
+      - "--influxListenAddr=:8089"
+      - "--vmalert.proxyURL=http://vmalert:8880"
+
+
+
+
+
 
 
 
