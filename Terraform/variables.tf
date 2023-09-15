@@ -19,7 +19,7 @@ variable "server_type" {
   type = string
   default = "cpx31"
   validation {
-    condition = contains(["cpx31", "cpx11"], var.server_type)
+    condition = contains(["cpx31", "cpx11", "cx21"], var.server_type)
     #Additional servertypes will be added
     error_message = "Lower than cpx31 would not be sufficient for the cluster"
 
