@@ -33,14 +33,6 @@
     mode: 0777
 
 
-- name: Copy Dashboard files
-  copy:
-    src: files/Dashboards/overview.json
-    dest: /root/monitoring/Dashboards/
-    force: true
-    mode: 0777
-
-
 - name: Copy Grafana files
   copy:
     src: files/Grafana/grafana.ini
