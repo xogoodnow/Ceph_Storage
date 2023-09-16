@@ -176,19 +176,20 @@
     image: victoriametrics/vmalert:latest
     state: started
     restart_policy: unless-stopped
+    network_mode: host
     published_ports:
       - 8880:8880
     volumes:
       - vmagentdata:/vmagentdata
-      - /root/monitoring/Prometheus/alert_rules.yaml:/etc/prometheus/alert_rules.yaml
+      - /root/monitoring/Prometheus/alert_rules.yaml:/etc/alerts/alert_rules.yaml
       - /root/monitoring/Prometheus/:/etc/prometheus/
 
     command:
-      - "--datasource.url=http://victoriametrics:8428/"
-      - "--remoteRead.url=http://victoriametrics:8428/"
-      - "--remoteWrite.url=http://victoriametrics:8428/"
-      - "--notifier.url=http://alertmanager:9093/"
-      - "--rule=/etc/alerts/*.yml"
+      - "--datasource.url=http://localhost:8428/"
+      - "--remoteRead.url=http://localhost:8428/"
+      - "--remoteWrite.url=http://localhost:8428/"
+      - "--notifier.url=http://localhost:9093/"
+      - "--rule=/etc/alerts/*.yaml"
 
 #      # display source of alerts in grafana
 #      - "--external.url=http://127.0.0.1:3000" #grafana outside container
@@ -211,6 +212,7 @@
       - /root/monitoring/Alertmanager/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yaml'
+    network_mode: host
 
 
 
