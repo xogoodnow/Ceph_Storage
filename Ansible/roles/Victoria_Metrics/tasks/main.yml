@@ -41,6 +41,21 @@
     mode: 0777
 
 
+- name: Copy dashboards files
+  copy:
+    src: files/Grafana/provisioning/dashboards/{{ item }}
+    dest: /root/monitoring/Grafana/provisioning/dashboards
+    force: true
+    follow: true
+    mode: 0777
+  with_items:
+    - 917.json
+    - 1860.json
+    - overview.json
+
+
+
+
 - name: Copy Prometheus files
   copy:
     src: files/Prometheus/{{ item }}
@@ -157,7 +172,7 @@
     volumes:
       - grafana_data:/var/lib/grafana
       - /root/monitoring/Grafana/:/etc/grafana/
-      - /root/monitoring/Grafana/provisioning:/etc/grafana/provisioning
+      - /root/monitoring/Grafana/provisioning/dashboards:/var/lib/grafana/provisioning/dashboards
 
 
 
