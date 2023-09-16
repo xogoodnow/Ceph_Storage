@@ -63,6 +63,9 @@ groups:
           description: "Experiencing high TCP demand  on instance {{ $labels.instance }} "
 
 
+
+  - name: Ceph alerts
+    rules:
       - alert: CephState
         expr: ceph_health_status != 0
         for: 0m
@@ -82,15 +85,6 @@ groups:
           summary: Ceph monitor clock skew (instance {{ $labels.instance }})
           description: "Ceph monitor clock skew detected. Please check ntp and hardware clock settings\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-      - alert: CephMonitorLowSpace
-        expr: ceph_monitor_avail_percent < 10
-        for: 2m
-        labels:
-          severity: warning
-        annotations:
-          summary: Ceph monitor low space (instance {{ $labels.instance }})
-          description: "Ceph monitor storage is low.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
 
 
       - alert: CephMonitorLowSpace
@@ -101,7 +95,6 @@ groups:
         annotations:
           summary: Ceph monitor low space (instance {{ $labels.instance }})
           description: "Ceph monitor storage is low.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
 
 
       - alert: CephOsdDown
@@ -114,8 +107,6 @@ groups:
           description: "Ceph Object Storage Daemon Down\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
 
-
-
       - alert: CephHighOsdLatency
         expr: ceph_osd_perf_apply_latency_seconds > 5
         for: 1m
@@ -124,8 +115,6 @@ groups:
         annotations:
           summary: Ceph high OSD latency (instance {{ $labels.instance }})
           description: "Ceph Object Storage Daemon latency is high. Please check if it doesn't stuck in weird state.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-
-
 
 
 
