@@ -36,6 +36,40 @@ receivers:
         send_resolved: true
 
 inhibit_rules:
+
+    # When an instace is down, all alers are inhibited due to this issue
+  - source_match:
+      alertname: "InstanceDown"
+    target_match:
+      severity: 'warning'
+    equal: ['instance']
+  - source_match:
+      alertname: "InstanceDown"
+    target_match:
+      severity: 'critical'
+    equal: ['instance']
+
+
+  - source_match:
+      alertname: 'CephOsdDown'
+    target_match:
+      alertname: 'CephState'
+    equal: ['instance']
+
+  - source_match:
+      alertname: 'CephOsdDown'
+    target_match:
+      alertname: 'ceph_pg_down'
+    equal: ['instance']
+
+
+  - source_match:
+      alertname: 'High latency HTTP'
+    target_match:
+      alertname: 'High latency ping'
+    equal: ['instance']
+
+
   - source_match:
       severity: 'critical'
     target_match:
