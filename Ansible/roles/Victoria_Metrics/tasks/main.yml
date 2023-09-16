@@ -181,7 +181,7 @@
       - 8880:8880
     volumes:
       - vmagentdata:/vmagentdata
-      - /root/monitoring/Prometheus/alert_rules.yaml:/etc/alerts/alert_rules.yaml
+      - /root/monitoring/Prometheus/Alert_Rules:/etc/alerts/
       - /root/monitoring/Prometheus/:/etc/prometheus/
 
     command:
