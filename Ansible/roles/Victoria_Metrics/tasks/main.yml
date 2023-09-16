@@ -23,6 +23,8 @@
     - /root/monitoring/Alertmanager
     - /root/monitoring/Dashboards
     - /root/monitoring/Grafana/provisioning
+    - /root/monitoring/Grafana/provisioning/dashboards
+
 
 
 - name: Copy alertmanager files
@@ -36,7 +38,7 @@
 - name: Copy Grafana files
   copy:
     src: files/Grafana/grafana.ini
-    dest: /root/monitoring/Grafana
+    dest: /root/monitoring/Grafana/
     force: true
     mode: 0777
 
@@ -44,11 +46,12 @@
 - name: Copy dashboards files
   copy:
     src: files/Grafana/provisioning/dashboards/{{ item }}
-    dest: /root/monitoring/Grafana/provisioning/dashboards
+    dest: /root/monitoring/Grafana/provisioning/dashboards/
     force: true
     follow: true
     mode: 0777
   with_items:
+    - dashboards.yaml
     - 917.json
     - 1860.json
     - overview.json
@@ -172,7 +175,7 @@
     volumes:
       - grafana_data:/var/lib/grafana
       - /root/monitoring/Grafana/:/etc/grafana/
-      - /root/monitoring/Grafana/provisioning/dashboards:/var/lib/grafana/provisioning/dashboards
+      - /root/monitoring/Grafana/provisioning/dashboards/:/var/lib/grafana/provisioning/dashboards/
 
 
 
