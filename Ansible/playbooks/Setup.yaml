@@ -46,6 +46,11 @@
       shell:
         cmd: ceph orch stop node-exporter
       when: mode == 'mon'
+      
+    - name: Remove  the default node exporter of ceph
+      shell:
+        cmd: ceph orch rm node-exporter
+      when: mode == 'mon'
 
 
     - name: Ceph monitoring
