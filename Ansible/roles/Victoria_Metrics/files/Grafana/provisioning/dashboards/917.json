@@ -2198,7 +2198,22 @@
         "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
         "refresh": 0,
         "type": "interval"
-      }
+      },
+      {
+      "current": {},
+      "hide": 0,
+      "includeAll": false,
+      "label": "DS_PROMETHEUS",
+      "multi": false,
+      "name": "DS_PROMETHEUS",
+      "options": [],
+      "query": "prometheus",
+      "refresh": 1,
+      "regex": "",
+      "skipUrlSync": false,
+      "type": "datasource"
+    }
+
     ]
   },
   "annotations": {
