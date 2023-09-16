@@ -54,9 +54,10 @@
     src: files/Prometheus/{{ item }}
     dest: /root/monitoring/Prometheus/
     force: true
+    follow: true
     mode: 0777
   with_items:
-    - alert_rules.yaml
+    - Alert_Rules
     - prometheus.yaml
 
 
@@ -165,7 +166,6 @@
       - grafana_data:/var/lib/grafana
       - /root/monitoring/Grafana/:/etc/grafana/
       - /root/monitoring/Grafana/provisioning:/etc/grafana/provisioning
-      - /root/monitoring/Dashboards/:/var/lib/grafana/dashboards/
 
 
 
