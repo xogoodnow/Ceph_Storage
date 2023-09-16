@@ -25,7 +25,7 @@ receivers:
         smarthost: smtp.gmail.com:587
         auth_username: '<Email Address of Alert Sender>'
         auth_identity: '<Email Address of Alert Sender>'
-        auth_password: '<Email Password Of The Aler Sendeer>'
+        auth_password: '<Email Password Of The Alert Sender>'
         send_resolved: true
 
 inhibit_rules:
