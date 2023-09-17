@@ -93,7 +93,7 @@ ceph mon stat
 * Check if Victoriametrics and vmagent work
 * > **Note**
 > Check if all targets are scraped properly
-![image](https://thebattleofisengard.s3.ir-thr-at1.arvanstorage.ir/Prometheus_works.gif)
+![image](https://s3.ir-thr-at1.arvanstorage.ir/kangceph/victoriametrics_works.gif)
 
 * Check if vmalert works
 * > **Note**
