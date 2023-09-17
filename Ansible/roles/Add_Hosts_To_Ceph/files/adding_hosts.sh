@@ -27,7 +27,7 @@ while IFS= read -r line; do
                     labels=""
                 fi
 
-                # Echo the ceph command without executing it
+                # Adding the nodes to the cluster
                 ceph orch host add $hostname $ip $labels
             fi
         fi
