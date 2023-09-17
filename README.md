@@ -7,20 +7,20 @@
 
 ### Components Used
 
-| Name:Version            | Documentation                                                                                     | Purpose                                 | Alternatives                     | Advantages                                                                                                                                                                              |
-|-------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Terraform 1.5.4         | [Docs](https://developer.hashicorp.com/terraform?product_intent=terraform)                        | Hardware Provisioner <br/>Initial Setup | `Salt` `Ansible`                 | 1. Easy syntax<br/>2. Sufficient community and documentation<br/>3. Much better suited for hardware provisioning                                                                        |
-| Hetzner Provider 1.42.1 | [Docs](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs)                   | Deploying servers                       | `Vultr` `DigitalOcean`           | 1. Cheaper :)<br/>2. Good community overlooking provider                                                                                                                                |
-| Ansible 2.15.2          | [Docs](https://docs.ansible.com/)                                                                 | Automating Tasks                        | `Salt`                           | 1. No footprint on target hosts                                                                                                                                                         |
-| Ubuntu  22.04           | [Docs](https://www.google.com/search?client=safari&rls=en&q=ubuntu+image+22.04&ie=UTF-8&oe=UTF-8) | Operating system                        | `Debian` `Centos`                | 1. Bigger community<br/>2. Faster releases than debian<br/>3. Bigger community than any other OS<br/>4. Not cash grapping like centos (Yet :))                                          |
-| Victoriametrics latest  | [Docs](https://victoriametrics.github.io/)                                                        | Time-series Database                    | `InfluxDB` `Prometheus`          | 1. High performance<br/>2. Cost-effective<br/>3. Scalable<br/>4. Handles massive volumes of data <br/>5. Good community and documentation                                               |
-| vmalert latest          | [Docs](https://victoriametrics.github.io/vmalert.html)                                            | Evaluating Alerting Rules               | `Prometheus Alertmanager`         | 1. Works well with VictoriaMetrics<br/>2. Supports different datasource types                                                                                                           |
-| vmagent latest          | [Docs](https://victoriametrics.github.io/vmagent.html)                                            | Collecting Time-series Data             | `Prometheus`                      | 1. Works well with VictoriaMetrics<br/>2. Supports different data source types                                                                                                          |
-| Alertmanager latest     | [Docs](https://prometheus.io/docs/alerting/latest/alertmanager/)                                  | Handling Alerts                         | `ElastAlert` `Grafana Alerts`     | 1. Handles alerts from multiple client applications<br/>2. Deduplicates, groups, and routes alerts<br/>3. Can be plugged to multiple endpoints (Slack, Email, Telegram, Squadcast, ...) |
-| Grafana latest          | [Docs](https://grafana.com/docs/grafana/latest/)                                                  | Monitoring and Observability            | `Prometheus` `Datadog` `New Relic`| 1. Create, explore, and share dashboards with ease  <br/>2.Huge community and documentation<br/>3. Easy to setup and manage<br/>4. Many out of the box solutions for visualization      |
-| Nodeexporter latest     | [Docs](https://prometheus.io/docs/guides/node-exporter/)                                          | Hardware and OS Metrics                 | `cAdvisor` `Collectd`             | 1. Measure various machine resources<br/>2. Pluggable metric collectors <br/>3. Basic standard for node monitoing                                                                       |
-| Cephexporter latest     | [Docs](https://github.com/digitalocean/ceph_exporter)                                        | Monitoring Ceph Clusters                | `Nagios` `Zabbix`                 | 1. Works well with Ceph<br/>2. Exposes Ceph metrics to Prometheus                                                                                                                       |
-| Docker latest           | [Docs](https://docs.docker.com/)                                                                  | Application Deployment and Management   | `Kubernetes` `OpenShift`          | 1. Much more bells and wistels are included out of the box comparing to alternatives<br/>2. Awsome community and documentation <br/>3. Easy to work with                                |
+| Name:Version            | Documentation                                                                                     | Purpose                                 | Alternatives                       | Advantages                                                                                                                                                                              |
+|-------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Terraform 1.5.4         | [Docs](https://developer.hashicorp.com/terraform?product_intent=terraform)                        | Hardware Provisioner <br/>Initial Setup | `Salt` `Ansible`                   | 1. Easy syntax<br/>2. Sufficient community and documentation<br/>3. Much better suited for hardware provisioning                                                                        |
+| Hetzner Provider 1.42.1 | [Docs](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs)                   | Deploying servers                       | `Vultr` `DigitalOcean`             | 1. Cheaper :)<br/>2. Good community overlooking provider                                                                                                                                |
+| Ansible 2.15.2          | [Docs](https://docs.ansible.com/)                                                                 | Automating Tasks                        | `Salt`                             | 1. No footprint on target hosts                                                                                                                                                         |
+| Ubuntu  22.04           | [Docs](https://www.google.com/search?client=safari&rls=en&q=ubuntu+image+22.04&ie=UTF-8&oe=UTF-8) | Operating system                        | `Debian` `Centos`                  | 1. Bigger community<br/>2. Faster releases than debian<br/>3. Bigger community than any other OS<br/>4. Not cash grapping like centos (Yet :))                                          |
+| Victoriametrics latest  | [Docs](https://victoriametrics.github.io/)                                                        | Time-series Database                    | `InfluxDB` `Prometheus`            | 1. High performance<br/>2. Cost-effective<br/>3. Scalable<br/>4. Handles massive volumes of data <br/>5. Good community and documentation                                               |
+| vmalert latest          | [Docs](https://victoriametrics.github.io/vmalert.html)                                            | Evaluating Alerting Rules               | `Prometheus Alertmanager`          | 1. Works well with VictoriaMetrics<br/>2. Supports different datasource types                                                                                                           |
+| vmagent latest          | [Docs](https://victoriametrics.github.io/vmagent.html)                                            | Collecting Time-series Data             | `Prometheus`                       | 1. Works well with VictoriaMetrics<br/>2. Supports different data source types                                                                                                          |
+| Alertmanager latest     | [Docs](https://prometheus.io/docs/alerting/latest/alertmanager/)                                  | Handling Alerts                         | `ElastAlert` `Grafana Alerts`      | 1. Handles alerts from multiple client applications<br/>2. Deduplicates, groups, and routes alerts<br/>3. Can be plugged to multiple endpoints (Slack, Email, Telegram, Squadcast, ...) |
+| Grafana latest          | [Docs](https://grafana.com/docs/grafana/latest/)                                                  | Monitoring and Observability            | `Prometheus` `Datadog` `New Relic` | 1. Create, explore, and share dashboards with ease  <br/>2.Huge community and documentation<br/>3. Easy to setup and manage<br/>4. Many out of the box solutions for visualization      |
+| Nodeexporter latest     | [Docs](https://prometheus.io/docs/guides/node-exporter/)                                          | Hardware and OS Metrics                 | `cAdvisor` `Collectd`              | 1. Measure various machine resources<br/>2. Pluggable metric collectors <br/>3. Basic standard for node monitoing                                                                       |
+| Cephexporter latest     | [Docs](https://github.com/digitalocean/ceph_exporter)                                        | Monitoring Ceph Clusters                | `NoN I Know of`                     | 1. Works well with Ceph<br/>2. Exposes Ceph metrics to Prometheus                                                                                                                       |
+| Docker latest           | [Docs](https://docs.docker.com/)                                                                  | Application Deployment and Management   | `containerd` `podman`              | 1. Much more bells and wistels are included out of the box comparing to alternatives<br/>2. Awsome community and documentation <br/>3. Easy to work with                                |
 
 
 
@@ -46,12 +46,13 @@
 
 ## Known issues
 * RGW IPs are not set on the domain automatically
-* No custom dashbaords
+* No custom dashboards
 * No automation for scaling or maintenance
 * No audit logging (to see when,who made what changes on the cluster)
 * Terraform is limited to Hetzner
 * Since there is no specific range for servers, public-network of mon, in on 0.0.0.0/0 
   * Firewall policies minimize the risk
+* Grafana datasource must be set manually <http://IP_ADDRESS_:8428>
 
 
 
@@ -90,7 +91,7 @@ ceph mon stat
 ```
 ![image](https://s3.ir-thr-at1.arvanstorage.ir/kangceph/mon_stat.gif)
 
-* Check if Victoriametrics and vmagent work
+* Check if Victoria_Metrics and Vmagent work
 * > **Note**
 > Check if all targets are scraped properly
 ![image](https://s3.ir-thr-at1.arvanstorage.ir/kangceph/victoriametrics_works.gif)
@@ -106,7 +107,6 @@ ceph mon stat
 > All dashboard are provisioned 
 > To add custom dashbaord on load, add it to /Ansible/roles/Victoria_Metrics/files/Grafana/provisioning/dashboards as a .json file. It would automatically be loaded to Grafana
 > Just keep in mind that you have to also copy the dashbaord using ansible to the remote destination
-
 
 ![image](https://s3.ir-thr-at1.arvanstorage.ir/kangceph/grafana_works.gif)
 
