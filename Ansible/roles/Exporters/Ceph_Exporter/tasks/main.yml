@@ -16,7 +16,8 @@
 - name: Run ceph exporter
   docker_container:
     name: ceph-exporter
-    image: digitalocean/ceph_exporter:"{{ ceph_exporter_version }}"
+    image: digitalocean/ceph_exporter:{{ ceph_exporter_version }}
+
 
     restart_policy: unless-stopped
     state: started

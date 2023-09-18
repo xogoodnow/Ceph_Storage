@@ -77,12 +77,12 @@
     name: "{{ item}}"
     source: pull
   with_items:
-    - prom/node-exporter:"{{ node_exporter_version }}"
-    - victoriametrics/vmagent:"{{ vmagent_version }}"
-    - victoriametrics/victoria-metrics:"{{ victoria_metrics_version }}"
-    - grafana/grafana:"{{ grafana_version }}"
-    - victoriametrics/vmalert:"{{ vmalert_version }}"
-    - prom/alertmanager:"{{ alertmanager_version }}"
+    - prom/node-exporter:{{ node_exporter_version }}
+    - victoriametrics/vmagent:{{ vmagent_version }}
+    - victoriametrics/victoria-metrics:{{ victoria_metrics_version }}
+    - grafana/grafana:{{ grafana_version }}
+    - victoriametrics/vmalert:{{ vmalert_version }}
+    - prom/alertmanager:{{ alertmanager_version }}
 
 
 - name: Create the required volumes
@@ -98,7 +98,7 @@
 - name: Run the container for Node Exporter
   docker_container:
     name: node-exporter
-    image: prom/node-exporter:"{{ node_exporter_version }}"
+    image: prom/node-exporter:{{ node_exporter_version }}
     restart_policy: unless-stopped
     state: started
     command:
@@ -121,7 +121,7 @@
   docker_container:
     name: vmagent
     state: started
-    image: victoriametrics/vmagent:"{{ vmagent_version }}"
+    image: victoriametrics/vmagent:{{ vmagent_version }}
     restart_policy: unless-stopped
     published_ports:
       - 8429:8429
@@ -140,7 +140,7 @@
   docker_container:
     name: victoriametrics
     state: started
-    image: victoriametrics/victoria-metrics:"{{ victoria_metrics_version }}"
+    image: victoriametrics/victoria-metrics:{{ victoria_metrics_version }}
     restart_policy: unless-stopped
     published_ports:
       - 8428:8428
@@ -167,7 +167,7 @@
   docker_container:
     name: grafana
     state: started
-    image: grafana/grafana:"{{ grafana_version }}"
+    image: grafana/grafana:{{ grafana_version }}
     restart_policy: unless-stopped
     published_ports:
       - 3000:3000
@@ -182,7 +182,7 @@
 - name: Run the container for Vmalert
   docker_container:
     name: vmalert
-    image: victoriametrics/vmalert:"{{ vmalert_version }}"
+    image: victoriametrics/vmalert:{{ vmalert_version }}
     state: started
     restart_policy: unless-stopped
     network_mode: host
@@ -212,7 +212,7 @@
   docker_container:
     name: alertmanager
     state: started
-    image: prom/alertmanager:"{{ alertmanager_version }}"
+    image: prom/alertmanager:{{ alertmanager_version }}
     restart_policy: unless-stopped
     published_ports:
       - 9093:9093
