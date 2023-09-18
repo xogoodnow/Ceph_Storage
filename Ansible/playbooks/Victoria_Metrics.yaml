@@ -3,6 +3,9 @@
   hosts: all
   become: true
   tasks:
+    - name: Include variables
+      include_vars: "all.yaml"
+
     - name: Set up the monitoring stack
       include_role:
         name: "{{ item }}"

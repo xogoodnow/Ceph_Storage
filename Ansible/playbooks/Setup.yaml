@@ -3,6 +3,10 @@
   hosts: all
   become: true
   tasks:
+
+    - name: Include variables
+      include_vars: "all.yaml"
+
     - name: Setting the basis on all nodes
       include_role:
         name: "{{ item }}"
@@ -11,7 +15,6 @@
         - $PWD/roles/OS_Tuning
         - $PWD/roles/Instaling_Docker
         - $PWD/roles/Ceph_Pre_Setup
-
 
     - name: Init the cluster
       include_role:
@@ -30,9 +33,12 @@
     - name: Add hosts to the ceph cluster
       include_role:
         name: "{{ item }}"
+      include_vars:
+        - $PWD/group_vars/all.yaml
       with_items:
         - $PWD/roles/Add_Hosts_To_Ceph
       when: mode == 'mon' and init_cluster == 'true'
+
 
 
     - name: Deploy Node exporter on all nodes
