@@ -2,3 +2,11 @@ osd_disk_path: /dev/sdb
 rgw_port: 8585
 name_of_rgw: kangrgw
 first_client: kang
+ceph_exporter_version: latest
+node_exporter_version: latest
+name_server: 8.8.8.8
+vmagent_version: latest
+victoria_metrics_version: latest
+grafana_version: latest
+vmalert_version: latest
+alertmanager_version: latest

@@ -13,7 +13,7 @@
     state: present
 
 
-- name: create keyring direcrtory
+- name: create keyring directory
   file:
     path: /etc/apt/keyrings
     owner: root
