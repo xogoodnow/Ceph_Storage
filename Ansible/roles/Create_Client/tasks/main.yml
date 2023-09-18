@@ -14,13 +14,13 @@
 
 - name: Create the user and paste the output to a file
   shell:
-    cmd: radosgw-admin user create --uid="kang" --display-name="kang" > /root/clients/kang/kang.json
+    cmd: radosgw-admin user create --uid="{{ first_client }}" --display-name="{{ first_client }}" > /root/clients/{{ first_client }}/{{ first_client }}.json
 
 
-- name: Fetch the credentials of kang user in json
+- name: Fetch the credentials of {{ first_client }} user in json
   fetch:
-    src: /root/clients/kang/kang.json
-    dest: /root/kang.json
+    src: /root/clients/{{ first_client }}/{{ first_client }}.json
+    dest: /root/{{ first_client }}.json
     flat: yes
 
 - name: Extract the access key and secret key from the JSON file
@@ -44,7 +44,7 @@
 - name: Create a config file for s3cmd
   template:
     src: templates/s3cfg.j2
-    dest: /root/clients/kang/s3cfg
+    dest: /root/clients/{{ first_client }}/s3cfg
   vars:
     secret_key: "{{ secret_key }}"
     access_key: "{{ access_key }}"
