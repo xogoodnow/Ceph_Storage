@@ -26,14 +26,14 @@
 - name: Add the additional disks to the cluster
   shell:
     cmd: |
-      ceph orch daemon add osd osd-1:/dev/sdb
-      ceph orch daemon add osd osd-2:/dev/sdb
-      ceph orch daemon add osd osd-3:/dev/sdb
+      ceph orch daemon add osd osd-1:{{ osd_disk_path }}
+      ceph orch daemon add osd osd-2:{{ osd_disk_path }}
+      ceph orch daemon add osd osd-3:{{ osd_disk_path }}
 
 
 - name: Enable functionality of RGWs on the cluster
   shell:
-    cmd: ceph orch apply rgw kangrgw --placement="2 label:rgw" --port=8585
+    cmd: ceph orch apply rgw {{ name_of_rgw }} --placement="2 label:rgw" --port={{ rgw_port }}
 
 
 - name: Pause for clsuter to setup the RGWs

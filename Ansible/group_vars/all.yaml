@@ -1,0 +1,3 @@
+osd_disk_path: /dev/sdb
+rgw_port: 8585
+name_of_rgw: kangrgw
