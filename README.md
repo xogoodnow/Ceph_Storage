@@ -77,7 +77,7 @@ terraform apply
 ![image](https://s3.ir-thr-at1.arvanstorage.ir/kangceph/terraform_apply.gif)
 
 
-* Check if Mons are in quorum 
+* Check the storage capacity on OSDs
 ``` bash
 ceph -s
 ceph orch host ls
