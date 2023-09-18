@@ -33,8 +33,6 @@
     - name: Add hosts to the ceph cluster
       include_role:
         name: "{{ item }}"
-      include_vars:
-        - $PWD/group_vars/all.yaml
       with_items:
         - $PWD/roles/Add_Hosts_To_Ceph
       when: mode == 'mon' and init_cluster == 'true'
