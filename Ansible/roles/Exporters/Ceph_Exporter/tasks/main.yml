@@ -10,13 +10,13 @@
 - name: Pull ceph exporter image
   docker_image:
     name: digitalocean/ceph_exporter
-    tag: {{ ceph_exporter_version }}
+    tag: "{{ ceph_exporter_version }}"
     source: pull
 
 - name: Run ceph exporter
   docker_container:
     name: ceph-exporter
-    image: digitalocean/ceph_exporter:{{ ceph_exporter_version }}
+    image: digitalocean/ceph_exporter:"{{ ceph_exporter_version }}"
 
     restart_policy: unless-stopped
     state: started
