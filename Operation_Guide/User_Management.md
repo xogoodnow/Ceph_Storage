@@ -30,7 +30,10 @@ radosgw-admin user rm --uid="userid"
 
 ```
 
-
+## To See the credentials of already existing user
+```bash
+radosgw-admin user info --uid=userid
+```
 
 
 
